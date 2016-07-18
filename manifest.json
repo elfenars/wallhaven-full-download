@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "Wallhaven Full Download",
+  "version": "0.1",
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*.wallhaven.cc/*", "https://*.wallhaven.cc/*"
+      ],
+      "js": ["jquery.min.js", "content.js"],
+      "css": ["styles.css"]
+    }
+  ]
+}
