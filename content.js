@@ -7,6 +7,21 @@ function isValidURL(url) {
   return http.status != 404;
 }
 
+function ajaxIsValidURL(url) {
+  isValid = false;
+
+  $.ajax({
+    url: url,
+    type: "HEAD",
+    async: false,
+    success: function(data) {
+      isValid = true;
+    }
+  });
+
+  return isValid;
+}
+
 function addFullLink(){
   $("ul li figure").each(function(){
     exts  = [".jpg",".png",".jpeg"];
@@ -16,7 +31,7 @@ function addFullLink(){
     for ( var i in exts ) {
       extURL = url + exts[i];
 
-      if ( isValidURL(extURL) ) {
+      if ( ajaxIsValidURL(extURL) ) {
         console.log("Found " + extURL);
         $(this).find('.wall-res').wrap('<a href='+ extURL +' target=_blank download></a>');
         break;
