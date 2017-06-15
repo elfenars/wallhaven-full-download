@@ -1,41 +1,27 @@
-// TODO: Call this on hover or something like that.
-function isValidURL(url) {
-  var http = new XMLHttpRequest();
-
-  http.open('HEAD', url, false);
-  http.send();
-  return http.status != 404;
-}
-
-function ajaxIsValidURL(url) {
+function ajaxIsValidURL(url, el) {
   isValid = false;
 
   $.ajax({
     url: url,
     type: "HEAD",
-    async: false,
+    async: true,
     success: function(data) {
-      isValid = true;
+      console.log("Found: " + url);
+      el.find('.wall-res').wrap('<a href='+ url +' target=_blank download></a>');
     }
   });
-
-  return isValid;
 }
 
 function addFullLink(){
+  exts  = [".jpg",".png",".jpeg"];
+
   $("ul li figure").each(function(){
-    exts  = [".jpg",".png",".jpeg"];
-    id    = $(this).attr('data-wallpaper-id');
-    url   = `https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-${id}`
+    id  = $(this).attr('data-wallpaper-id');
+    url = `https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-${id}`
 
     for ( var i in exts ) {
       extURL = url + exts[i];
-
-      if ( ajaxIsValidURL(extURL) ) {
-        console.log("Found " + extURL);
-        $(this).find('.wall-res').wrap('<a href='+ extURL +' target=_blank download></a>');
-        break;
-      };
+      ajaxIsValidURL(extURL, $(this) );
     };
   });
 };
